@@ -1,0 +1,25 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#8106
+    [34mall[39m: [
+      [34;4mApp\Models\Role[39;24m {#8103
+        [34mid[39m: [35m1[39m,
+        [34mname[39m: [32m"[39m[32mAdmin[39m[32m"[39m,
+        [34mdisplay_name[39m: [32m"[39m[32mAdministrator[39m[32m"[39m,
+        [34mcreated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+        [34mupdated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+      },
+      [34;4mApp\Models\Role[39;24m {#8102
+        [34mid[39m: [35m2[39m,
+        [34mname[39m: [32m"[39m[32mRecruiter[39m[32m"[39m,
+        [34mdisplay_name[39m: [32m"[39m[32mRecruiter[39m[32m"[39m,
+        [34mcreated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+        [34mupdated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+      },
+      [34;4mApp\Models\Role[39;24m {#8105
+        [34mid[39m: [35m3[39m,
+        [34mname[39m: [32m"[39m[32mHiring Manager[39m[32m"[39m,
+        [34mdisplay_name[39m: [32m"[39m[32mHiring Manager[39m[32m"[39m,
+        [34mcreated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+        [34mupdated_at[39m: [32m"[39m[32m2026-07-26 15:05:58[39m[32m"[39m,
+      },
+    ],
+  }
