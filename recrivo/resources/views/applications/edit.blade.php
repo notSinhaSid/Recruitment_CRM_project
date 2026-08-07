@@ -40,6 +40,7 @@
             <option value="screening" @selected(old('stage', $application->stage) == 'screening')>Screening</option>
             <option value="interview" @selected(old('stage', $application->stage) == 'interview')>Interview</option>
             <option value="offer" @selected(old('stage', $application->stage) == 'offer')>Offer</option>
+            <option value="on_hold" @selected(old('stage', $application->stage) == 'on_hold')>On Hold</option>
             <option value="hired" @selected(old('stage', $application->stage) == 'hired')>Hired</option>
             <option value="rejected" @selected(old('stage', $application->stage) == 'rejected')>Rejected</option>
         </select><br><br>

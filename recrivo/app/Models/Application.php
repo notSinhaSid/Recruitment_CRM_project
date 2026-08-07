@@ -4,14 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Concerns\Auditable;
 
 class Application extends Model
 {
+    use Auditable;
     protected $fillable = [
         'tenant_id',
         'candidate_id',
         'job_posting_id',
         'stage',
+        'previous_stage',
         'applied_at',
     ];
 

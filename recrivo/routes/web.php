@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,4 +23,9 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('job-postings', JobPostingController::class);
     Route::resource('candidates', CandidateController::class);
     Route::resource('applications', ApplicationController::class);
+
+    Route::post('/applications/{application}/transition', [ApplicationController::class, 'transitionStage'])
+    ->name('applications.transition');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

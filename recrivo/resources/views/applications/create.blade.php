@@ -41,6 +41,7 @@
             <option value="screening" @selected(old('stage') == 'screening')>Screening</option>
             <option value="interview" @selected(old('stage') == 'interview')>Interview</option>
             <option value="offer" @selected(old('stage') == 'offer')>Offer</option>
+            <option value="on_hold" @selected(old('stage') == 'on_hold')>On Hold</option>
             <option value="hired" @selected(old('stage') == 'hired')>Hired</option>
             <option value="rejected" @selected(old('stage') == 'rejected')>Rejected</option>
         </select><br><br>
