@@ -2,23 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Company extends Model
+class JobPosting extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'tenant_id',
-        'name',
-        'industry',
-        'website',
-        'contact_number',
+        'company_id',
+        'title',
+        'description',
+        'status',
         'location',
-        'notes',
+        'employment_type',
+        'open_spots',
     ];
 
     public function tenant(): BelongsTo
@@ -26,8 +24,12 @@ class Company extends Model
         return $this->belongsTo(Tenant::class);
     }
 
-    public function jobPostings(): HasMany
+    public function company(): BelongsTo
     {
-        return $this->hasMany(JobPosting::class);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function applications(): HasMany {
+        return $this->hasMany(Application::class);
     }
 }
