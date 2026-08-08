@@ -13,10 +13,10 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="font-sans antialiased text-[var(--color-text)]">
-    <div class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
 
         {{-- Sidebar --}}
-        <aside class="w-64 shrink-0 bg-[var(--color-sidebar)] text-white flex flex-col">
+        <aside class="w-64 shrink-0 h-screen bg-[var(--color-sidebar)] text-white flex flex-col overflow-y-auto shadow-[4px_0_16px_rgba(0,0,0,0.12)] relative z-10">
             <div class="h-16 flex items-center px-6 border-b border-white/10">
                 <span class="text-lg font-semibold tracking-tight">Recrivo</span>
             </div>
@@ -61,20 +61,18 @@
         </aside>
 
         {{-- Main --}}
-        <div class="flex-1 flex flex-col min-w-0">
-            <header class="h-16 bg-[var(--color-card)] border-b border-[var(--color-border)] flex items-center justify-between px-8">
+        <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+            <header class="h-16 shrink-0 bg-[var(--color-card)] border-b border-[var(--color-border)] flex items-center justify-between px-8 shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative z-[5]">
                 <h1 class="text-xl font-semibold text-[var(--color-text)]">{{ $header ?? '' }}</h1>
                 <div class="flex items-center gap-3">
-                    <span class="text-sm text-[var(--color-text-secondary)]">{{ auth()->user()->first_name ?? auth()->user()->name ?? '' }}</span>
+                    <a href="{{ route('profile.edit') }}" class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        {{ auth()->user()->first_name ?? auth()->user()->name ?? '' }}
+                    </a>
                 </div>
             </header>
 
-            <main class="flex-1 p-8">
-                @if (session('success'))
-                    <div class="mb-6 rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] shadow-sm">
-                        {{ session('success') }}
-                    </div>
-                @endif
+            <main class="flex-1 p-8 bg-[var(--color-background)]">
+                <x-toast />
 
                 {{ $slot }}
             </main>

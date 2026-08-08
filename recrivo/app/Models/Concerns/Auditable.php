@@ -13,7 +13,15 @@ trait Auditable
         });
 
         static::updated(function ($model) {
-            $model->writeAuditLog('updated', $model->getChanges());
+            $changes = collect($model->getChanges())
+                ->except(['updated_at', 'created_at'])
+                ->all();
+
+            if (empty($changes)) {
+                return;
+            }
+
+            $model->writeAuditLog('updated', $changes);
         });
 
         static::deleted(function ($model) {
