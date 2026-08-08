@@ -10,6 +10,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::apiResource('candidates', CandidateController::class);
-    Route::apiResource('applications', ApplicationController::class);
+    Route::apiResource('candidates', CandidateController::class)->names('api.candidates');
+    Route::apiResource('applications', ApplicationController::class)->names('api.applications');
 });

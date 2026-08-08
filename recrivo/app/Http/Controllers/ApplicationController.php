@@ -18,12 +18,16 @@ class ApplicationController extends Controller
 
     public function index(): View
     {
-        $applications = Application::where('tenant_id', auth()->user()->tenant_id)
-            ->with(['candidate', 'jobPosting'])
-            ->latest()
-            ->paginate(15);
+        $tenantId = auth()->user()->tenant_id;
 
-        return view('applications.index', compact('applications'));
+        $applications = Application::with(['candidate', 'jobPosting'])
+            ->where('tenant_id', $tenantId)
+            ->latest()
+            ->get();
+
+        $applicationsByStage = $applications->groupBy('stage');
+
+        return view('applications.index', compact('applicationsByStage'));
     }
 
     public function create(): View

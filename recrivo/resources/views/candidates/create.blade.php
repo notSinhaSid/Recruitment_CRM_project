@@ -1,48 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head><title>Create Candidate</title></head>
-<body>
-    <h1>Create Candidate</h1>
+<x-app-layout header="New Candidate">
 
-    @if ($errors->any())
-        <ul style="color:red">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <div class="max-w-3xl">
+        <div class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-8">
 
-    <form method="POST" action="{{ route('candidates.store') }}" enctype="multipart/form-data">
-        @csrf
+            @if ($errors->any())
+                <div class="mb-6 rounded-lg border border-[var(--color-coral)]/30 bg-[var(--color-coral)]/5 px-4 py-3">
+                    <p class="text-sm font-medium text-[var(--color-coral)] mb-1">Please fix the following:</p>
+                    <ul class="list-disc list-inside text-sm text-[var(--color-coral)] space-y-0.5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <label>First Name</label><br>
-        <input type="text" name="first_name" value="{{ old('first_name') }}" required><br><br>
+            <form method="POST" action="{{ route('candidates.store') }}" enctype="multipart/form-data">
+                @csrf
 
-        <label>Last Name</label><br>
-        <input type="text" name="last_name" value="{{ old('last_name') }}" required><br><br>
+                @include('candidates._form')
 
-        <label>Email</label><br>
-        <input type="email" name="email" value="{{ old('email') }}" required><br><br>
+                <div class="flex items-center gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
+                        Create Candidate
+                    </button>
+                    <a href="{{ route('candidates.index') }}"
+                        class="px-5 py-2.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <label>Phone</label><br>
-        <input type="text" name="phone" value="{{ old('phone') }}"><br><br>
-
-        <label>LinkedIn URL</label><br>
-        <input type="url" name="linkedin_url" value="{{ old('linkedin_url') }}"><br><br>
-
-        <label>Years of Experience</label><br>
-        <input type="number" name="years_of_experience" value="{{ old('years_of_experience') }}" min="0"><br><br>
-
-        <label>Source</label><br>
-        <input type="text" name="source" value="{{ old('source') }}" placeholder="LinkedIn, Referral, Job Board..."><br><br>
-
-        <label>Resume (PDF or DOC, max 3MB)</label><br>
-        <input type="file" name="resume" accept=".pdf,.doc,.docx"><br><br>
-
-        <label>Notes</label><br>
-        <textarea name="notes">{{ old('notes') }}</textarea><br><br>
-
-        <button type="submit">Create</button>
-    </form>
-</body>
-</html>
+</x-app-layout>

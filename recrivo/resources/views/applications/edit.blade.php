@@ -1,54 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head><title>Edit Application</title></head>
-<body>
-    <h1>Edit Application</h1>
+<x-app-layout header="Edit Application">
 
-    @if ($errors->any())
-        <ul style="color:red">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <div class="max-w-3xl">
+        <div class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-8">
 
-    <form method="POST" action="{{ route('applications.update', $application) }}">
-        @csrf
-        @method('PUT')
+            @if ($errors->any())
+                <div class="mb-6 rounded-lg border border-[var(--color-coral)]/30 bg-[var(--color-coral)]/5 px-4 py-3">
+                    <p class="text-sm font-medium text-[var(--color-coral)] mb-1">Please fix the following:</p>
+                    <ul class="list-disc list-inside text-sm text-[var(--color-coral)] space-y-0.5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <label>Candidate</label><br>
-        <select name="candidate_id" required>
-            @foreach ($candidates as $candidate)
-                <option value="{{ $candidate->id }}" @selected(old('candidate_id', $application->candidate_id) == $candidate->id)>
-                    {{ $candidate->first_name }} {{ $candidate->last_name }} ({{ $candidate->email }})
-                </option>
-            @endforeach
-        </select><br><br>
+            <form method="POST" action="{{ route('applications.update', $application) }}">
+                @csrf
+                @method('PUT')
 
-        <label>Job Posting</label><br>
-        <select name="job_posting_id" required>
-            @foreach ($jobPostings as $jobPosting)
-                <option value="{{ $jobPosting->id }}" @selected(old('job_posting_id', $application->job_posting_id) == $jobPosting->id)>
-                    {{ $jobPosting->title }}
-                </option>
-            @endforeach
-        </select><br><br>
+                @include('applications._form')
 
-        <label>Stage</label><br>
-        <select name="stage" required>
-            <option value="applied" @selected(old('stage', $application->stage) == 'applied')>Applied</option>
-            <option value="screening" @selected(old('stage', $application->stage) == 'screening')>Screening</option>
-            <option value="interview" @selected(old('stage', $application->stage) == 'interview')>Interview</option>
-            <option value="offer" @selected(old('stage', $application->stage) == 'offer')>Offer</option>
-            <option value="on_hold" @selected(old('stage', $application->stage) == 'on_hold')>On Hold</option>
-            <option value="hired" @selected(old('stage', $application->stage) == 'hired')>Hired</option>
-            <option value="rejected" @selected(old('stage', $application->stage) == 'rejected')>Rejected</option>
-        </select><br><br>
+                <div class="flex items-center gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
+                        Update Application
+                    </button>
+                    <a href="{{ route('applications.index') }}"
+                        class="px-5 py-2.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <label>Applied At</label><br>
-        <input type="date" name="applied_at" value="{{ old('applied_at', $application->applied_at?->format('Y-m-d')) }}"><br><br>
-
-        <button type="submit">Update</button>
-    </form>
-</body>
-</html>
+</x-app-layout>

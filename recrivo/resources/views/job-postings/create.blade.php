@@ -1,53 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head><title>Create Job Posting</title></head>
-<body>
-    <h1>Create Job Posting</h1>
+<x-app-layout header="New Job Posting">
 
-    @if ($errors->any())
-        <ul style="color:red">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <div class="max-w-3xl">
+        <div class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-8">
 
-    <form method="POST" action="{{ route('job-postings.store') }}">
-        @csrf
+            @if ($errors->any())
+                <div class="mb-6 rounded-lg border border-[var(--color-coral)]/30 bg-[var(--color-coral)]/5 px-4 py-3">
+                    <p class="text-sm font-medium text-[var(--color-coral)] mb-1">Please fix the following:</p>
+                    <ul class="list-disc list-inside text-sm text-[var(--color-coral)] space-y-0.5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <label>Company</label><br>
-        <select name="company_id" required>
-            <option value="">-- Select --</option>
-            @foreach ($companies as $company)
-                <option value="{{ $company->id }}" @selected(old('company_id') == $company->id)>
-                    {{ $company->name }}
-                </option>
-            @endforeach
-        </select><br><br>
+            <form method="POST" action="{{ route('job-postings.store') }}">
+                @csrf
 
-        <label>Title</label><br>
-        <input type="text" name="title" value="{{ old('title') }}" required><br><br>
+                @include('job-postings._form')
 
-        <label>Description</label><br>
-        <textarea name="description">{{ old('description') }}</textarea><br><br>
+                <div class="flex items-center gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
+                        Create Job Posting
+                    </button>
+                    <a href="{{ route('job-postings.index') }}"
+                        class="px-5 py-2.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <label>Status</label><br>
-        <select name="status" required>
-            <option value="open" @selected(old('status', 'open') == 'open')>Open</option>
-            <option value="closed" @selected(old('status') == 'closed')>Closed</option>
-            <option value="on_hold" @selected(old('status') == 'on_hold')>On Hold</option>
-        </select><br><br>
-
-        <label>Location</label><br>
-        <input type="text" name="location" value="{{ old('location') }}"><br><br>
-
-        <label>Employment Type</label><br>
-        <input type="text" name="employment_type" value="{{ old('employment_type') }}"><br><br>
-
-        <label>Open Spots</label><br>
-        <input type="number" name="open_spots" value="{{ old('open_spots', 1) }}" min="1" required><br><br>
-
-        <button type="submit">Create</button>
-    </form>
-</body>
-</html>
+</x-app-layout>

@@ -1,31 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head><title>{{ $candidate->first_name }} {{ $candidate->last_name }}</title></head>
-<body>
-    <h1>{{ $candidate->first_name }} {{ $candidate->last_name }}</h1>
+<x-app-layout header="Candidate Details">
 
-    <p><strong>Email:</strong> {{ $candidate->email }}</p>
-    <p><strong>Phone:</strong> {{ $candidate->phone ?? '—' }}</p>
-    <p><strong>LinkedIn:</strong>
-        @if ($candidate->linkedin_url)
-            <a href="{{ $candidate->linkedin_url }}" target="_blank">{{ $candidate->linkedin_url }}</a>
-        @else
-            —
-        @endif
-    </p>
-    <p><strong>Years of Experience:</strong> {{ $candidate->years_of_experience ?? '—' }}</p>
-    <p><strong>Source:</strong> {{ $candidate->source ?? '—' }}</p>
-    <p><strong>Resume:</strong>
-        @if ($candidate->resume_path)
-            <a href="{{ Storage::url($candidate->resume_path) }}" target="_blank">View resume</a>
-        @else
-            Not uploaded
-        @endif
-    </p>
-    <p><strong>Notes:</strong></p>
-    <p>{{ $candidate->notes ?? '—' }}</p>
+    <div class="max-w-3xl">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-semibold text-[var(--color-text)]">{{ $candidate->first_name }} {{ $candidate->last_name }}</h2>
+                <p class="text-sm text-[var(--color-text-secondary)] mt-1">{{ $candidate->email }}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('candidates.edit', $candidate) }}"
+                    class="px-4 py-2 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-bg)] transition">
+                    Edit
+                </a>
+                <a href="{{ route('candidates.index') }}"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                    Back to list
+                </a>
+            </div>
+        </div>
 
-    <a href="{{ route('candidates.edit', $candidate) }}">Edit</a>
-    <a href="{{ route('candidates.index') }}">Back to list</a>
-</body>
-</html>
+        <div class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-8">
+            <dl class="grid grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                    <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Phone</dt>
+                    <dd class="mt-1 text-sm text-[var(--color-text)]">{{ $candidate->phone ?? '—' }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">LinkedIn</dt>
+                    <dd class="mt-1 text-sm">
+                        @if ($candidate->linkedin_url)
+                            <a href="{{ $candidate->linkedin_url }}" target="_blank" class="text-[var(--color-primary)] hover:underline">{{ $candidate->linkedin_url }}</a>
+                        @else
+                            <span class="text-[var(--color-text)]">—</span>
+                        @endif
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Years of Experience</dt>
+                    <dd class="mt-1 text-sm text-[var(--color-text)]">{{ $candidate->years_of_experience ?? '—' }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Source</dt>
+                    <dd class="mt-1 text-sm text-[var(--color-text)]">{{ $candidate->source ?? '—' }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Resume</dt>
+                    <dd class="mt-1 text-sm">
+                        @if ($candidate->resume_path)
+                            <a href="{{ Storage::url($candidate->resume_path) }}" target="_blank" class="text-[var(--color-primary)] hover:underline">View resume</a>
+                        @else
+                            <span class="text-[var(--color-text)]">Not uploaded</span>
+                        @endif
+                    </dd>
+                </div>
+            </dl>
+
+            <div class="mt-6 pt-6 border-t border-[var(--color-border)]">
+                <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)] mb-2">Notes</dt>
+                <dd class="text-sm text-[var(--color-text)] leading-relaxed">{{ $candidate->notes ?? '—' }}</dd>
+            </div>
+        </div>
+    </div>
+
+</x-app-layout>
