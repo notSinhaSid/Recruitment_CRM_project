@@ -32,18 +32,12 @@
                         <td class="px-6 py-4"><x-badge :status="$jobPosting->status" /></td>
                         <td class="px-6 py-4 text-[var(--color-text-secondary)]">{{ $jobPosting->open_spots }}</td>
                         <td class="px-6 py-4">
-                            <div class="flex items-center justify-end gap-3 text-[var(--color-text-secondary)]">
-                                <a href="{{ route('job-postings.show', $jobPosting) }}" class="hover:text-[var(--color-primary)] transition">View</a>
-                                <a href="{{ route('job-postings.edit', $jobPosting) }}" class="hover:text-[var(--color-primary)] transition">Edit</a>
-                                <form method="POST" action="{{ route('job-postings.destroy', $jobPosting) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Delete this job posting?')"
-                                        class="hover:text-[var(--color-coral)] transition">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <x-row-actions
+                                :show-route="route('job-postings.show', $jobPosting)"
+                                :edit-route="route('job-postings.edit', $jobPosting)"
+                                :destroy-route="route('job-postings.destroy', $jobPosting)"
+                                confirm-label="this job posting"
+                            />
                         </td>
                     </tr>
                 @empty

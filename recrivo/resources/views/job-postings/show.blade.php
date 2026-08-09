@@ -1,6 +1,6 @@
 <x-app-layout header="Job Posting Details">
 
-    <div class="max-w-3xl">
+    <div class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl font-semibold text-[var(--color-text)]">{{ $jobPosting->title }}</h2>
@@ -43,7 +43,13 @@
 
             <div class="mt-6 pt-6 border-t border-[var(--color-border)]">
                 <dt class="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)] mb-2">Description</dt>
-                <dd class="text-sm text-[var(--color-text)] leading-relaxed">{{ $jobPosting->description ?? '—' }}</dd>
+                <dd class="text-sm text-[var(--color-text)] leading-relaxed [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-[var(--color-primary)] [&_a]:underline">
+                    @if ($jobPosting->description)
+                        {!! $jobPosting->description !!}
+                    @else
+                        —
+                    @endif
+                </dd>
             </div>
         </div>
     </div>

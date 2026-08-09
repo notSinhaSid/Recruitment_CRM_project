@@ -1,6 +1,6 @@
 <x-app-layout header="Edit Job Posting">
 
-    <div class="max-w-3xl">
+    <div class="max-w-3xl mx-auto">
         <div class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-8">
 
             @if ($errors->any())
@@ -22,11 +22,13 @@
 
                 <div class="flex items-center gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
                     <button type="submit"
-                        class="px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
+                        class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
                         Update Job Posting
                     </button>
                     <a href="{{ route('job-postings.index') }}"
-                        class="px-5 py-2.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        class="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12" /></svg>
                         Cancel
                     </a>
                 </div>

@@ -36,18 +36,12 @@
                             {{ $candidate->years_of_experience !== null ? $candidate->years_of_experience . ' yrs' : '—' }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex items-center justify-end gap-3 text-[var(--color-text-secondary)]">
-                                <a href="{{ route('candidates.show', $candidate) }}" class="hover:text-[var(--color-primary)] transition">View</a>
-                                <a href="{{ route('candidates.edit', $candidate) }}" class="hover:text-[var(--color-primary)] transition">Edit</a>
-                                <form method="POST" action="{{ route('candidates.destroy', $candidate) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Delete this candidate?')"
-                                        class="hover:text-[var(--color-coral)] transition">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <x-row-actions
+                                :show-route="route('candidates.show', $candidate)"
+                                :edit-route="route('candidates.edit', $candidate)"
+                                :destroy-route="route('candidates.destroy', $candidate)"
+                                confirm-label="this candidate"
+                            />
                         </td>
                     </tr>
                 @empty

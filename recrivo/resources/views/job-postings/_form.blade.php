@@ -20,7 +20,7 @@
 </div>
 
 <div class="mt-5">
-    <x-form-field name="description" label="Description" type="textarea">{{ old('description', $jp->description ?? '') }}</x-form-field>
+    <x-form-field name="description" label="Description" type="richtext">{{ old('description', $jp->description ?? '') }}</x-form-field>
 </div>
 
 <div class="grid grid-cols-2 gap-5 mt-5">

@@ -54,7 +54,7 @@
         <div x-show="error" x-transition x-text="error"
              class="mb-4 rounded-lg border border-[var(--color-coral)]/30 bg-[var(--color-coral)]/5 px-4 py-3 text-sm text-[var(--color-coral)]"></div>
 
-        <div class="flex gap-4 overflow-x-auto pb-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             @php
                 $stages = [
                     'applied' => 'Applied',
@@ -69,31 +69,31 @@
 
             @foreach ($stages as $key => $label)
                 <div
-                    class="flex-shrink-0 w-72 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl"
+                    class="flex flex-col min-h-0 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl"
                     @dragover.prevent
                     @drop.prevent="onDrop('{{ $key }}', $event)"
                 >
-                    <div class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)]">
-                        <h3 class="text-sm font-semibold text-[var(--color-text)]">{{ $label }}</h3>
-                        <span class="text-xs font-medium text-[var(--color-text-secondary)] bg-white border border-[var(--color-border)] rounded-full px-2 py-0.5">
+                    <div class="flex items-center justify-between px-4 py-4 border-b border-[var(--color-border)] shrink-0">
+                        <h3 class="text-base font-semibold text-[var(--color-text)] truncate">{{ $label }}</h3>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)] bg-white border border-[var(--color-border)] rounded-full px-2.5 py-0.5 shrink-0 ml-2">
                             {{ ($applicationsByStage[$key] ?? collect())->count() }}
                         </span>
                     </div>
 
-                    <div class="p-3 space-y-3 min-h-[120px]">
+                    <div class="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-22rem)]">
                         @forelse ($applicationsByStage[$key] ?? [] as $application)
                             <div
                                 id="app-card-{{ $application->id }}"
                                 draggable="true"
                                 @dragstart="$event.dataTransfer.setData('text/plain', '{{ $application->id }}')"
                                 data-transition-url="{{ route('applications.transition', $application) }}"
-                                class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg p-3 cursor-grab active:cursor-grabbing hover:shadow-sm transition"
+                                class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg p-4 cursor-grab active:cursor-grabbing hover:shadow-sm transition"
                             >
                                 <a href="{{ route('applications.show', $application) }}" class="block">
-                                    <p class="text-sm font-medium text-[var(--color-text)]">
+                                    <p class="text-sm font-semibold text-[var(--color-text)] truncate">
                                         {{ $application->candidate->first_name }} {{ $application->candidate->last_name }}
                                     </p>
-                                    <p class="text-xs text-[var(--color-text-secondary)] mt-1">
+                                    <p class="text-sm text-[var(--color-text-secondary)] mt-1 truncate">
                                         {{ $application->jobPosting->title }}
                                     </p>
                                     <p class="text-xs text-[var(--color-text-secondary)] mt-2">
@@ -102,7 +102,7 @@
                                 </a>
                             </div>
                         @empty
-                            <p class="text-xs text-[var(--color-text-secondary)] text-center py-6">No applications</p>
+                            <p class="text-sm text-[var(--color-text-secondary)] text-center py-8">No applications</p>
                         @endforelse
                     </div>
                 </div>

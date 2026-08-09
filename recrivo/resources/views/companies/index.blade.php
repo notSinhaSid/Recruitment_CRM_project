@@ -30,18 +30,12 @@
                         <td class="px-6 py-4 text-[var(--color-text-secondary)]">{{ $company->industry ?? '—' }}</td>
                         <td class="px-6 py-4 text-[var(--color-text-secondary)]">{{ $company->location ?? '—' }}</td>
                         <td class="px-6 py-4">
-                            <div class="flex items-center justify-end gap-3 text-[var(--color-text-secondary)]">
-                                <a href="{{ route('companies.show', $company) }}" class="hover:text-[var(--color-primary)] transition">View</a>
-                                <a href="{{ route('companies.edit', $company) }}" class="hover:text-[var(--color-primary)] transition">Edit</a>
-                                <form method="POST" action="{{ route('companies.destroy', $company) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Delete this company?')"
-                                        class="hover:text-[var(--color-coral)] transition">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <x-row-actions
+                                :show-route="route('companies.show', $company)"
+                                :edit-route="route('companies.edit', $company)"
+                                :destroy-route="route('companies.destroy', $company)"
+                                confirm-label="this company"
+                            />
                         </td>
                     </tr>
                 @empty

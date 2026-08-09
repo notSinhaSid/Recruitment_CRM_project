@@ -1,6 +1,6 @@
 <x-app-layout header="Company Details">
 
-    <div class="max-w-3xl">
+    <div class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl font-semibold text-[var(--color-text)]">{{ $company->name }}</h2>

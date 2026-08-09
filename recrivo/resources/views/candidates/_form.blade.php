@@ -32,5 +32,5 @@
 </div>
 
 <div class="mt-5">
-    <x-form-field name="notes" label="Notes" type="textarea">{{ old('notes', $c->notes ?? '') }}</x-form-field>
+    <x-form-field name="notes" label="Notes" type="richtext">{{ old('notes', $c->notes ?? '') }}</x-form-field>
 </div>

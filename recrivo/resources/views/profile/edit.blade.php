@@ -3,7 +3,7 @@
         <h1 class="text-xl font-semibold text-[#1F2937]">Profile</h1>
     </x-slot>
 
-    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="max-w-3xl space-y-8">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-8">
         @csrf
         @method('PUT')
 
