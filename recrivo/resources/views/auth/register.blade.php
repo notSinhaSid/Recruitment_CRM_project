@@ -30,11 +30,8 @@
         </svg>
 
         <div class="relative z-10 flex flex-col justify-center px-16 text-white">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
-                    <span class="text-xl font-bold">R</span>
-                </div>
-                <span class="text-2xl font-semibold tracking-tight">Recrivo</span>
+            <div class="mb-10">
+                <img src="{{ asset('images/recrivo-lockup-horizontal-white.png') }}" alt="Recrivo" class="h-10 w-auto">
             </div>
 
             <h1 class="text-4xl font-bold leading-tight mb-4">
@@ -51,7 +48,7 @@
         <div class="w-full max-w-sm">
 
             <div class="lg:hidden text-center mb-8">
-                <span class="text-2xl font-semibold tracking-tight text-[var(--color-primary)]">Recrivo</span>
+                <img src="{{ asset('images/recrivo-lockup-horizontal-black.png') }}" alt="Recrivo" class="h-9 w-auto mx-auto">
             </div>
 
             <h2 class="text-2xl font-semibold text-[var(--color-text)] mb-1">Create your account</h2>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Recrivo' }}</title>
 
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,7 +44,7 @@
         {{-- Sidebar --}}
         <aside class="w-64 shrink-0 h-screen bg-[var(--color-sidebar)] text-white flex flex-col overflow-y-auto shadow-[4px_0_16px_rgba(0,0,0,0.12)] relative z-10">
             <div class="h-16 flex items-center px-6 border-b border-white/10">
-                <span class="text-lg font-semibold tracking-tight">Recrivo</span>
+                <img src="{{ asset('images/recrivo-lockup-horizontal-white.png') }}" alt="Recrivo" class="h-9 w-auto object-contain">
             </div>
 
             @php $tenant = auth()->user()->tenant ?? null; @endphp
