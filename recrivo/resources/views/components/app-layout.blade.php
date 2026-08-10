@@ -47,24 +47,7 @@
                 <img src="{{ asset('images/recrivo-lockup-horizontal-white.png') }}" alt="Recrivo" class="h-9 w-auto object-contain">
             </div>
 
-            @php $tenant = auth()->user()->tenant ?? null; @endphp
-            <div class="flex items-center gap-3 px-4 py-4 border-b border-white/10">
-                @if($tenant?->logo_path)
-                    <img src="{{ Storage::url($tenant->logo_path) }}"
-                         alt="{{ $tenant->name }}"
-                         class="w-9 h-9 rounded-lg object-cover shrink-0 bg-white/10">
-                @else
-                    <div class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                        <span class="text-white font-semibold text-sm">
-                            {{ strtoupper(substr($tenant->name ?? 'R', 0, 1)) }}
-                        </span>
-                    </div>
-                @endif
-                <div class="min-w-0">
-                    <p class="text-white text-sm font-medium truncate">{{ $tenant->name ?? 'Your company' }}</p>
-                    <p class="text-white/50 text-xs truncate">Workspace</p>
-                </div>
-            </div>
+            
 
             <nav class="flex-1 px-3 py-4 space-y-1">
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -89,15 +72,34 @@
 
                 <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.*')">
                     <x-icon.building class="w-5 h-5" />
-                    Companies
+                    Client Companies
                 </x-nav-link>
             </nav>
+
+            @php $tenant = auth()->user()->tenant ?? null; @endphp
+            <div class="flex items-center gap-3 px-4 py-4 border-b border-white/10">
+                @if($tenant?->logo_path)
+                    <img src="{{ Storage::url($tenant->logo_path) }}"
+                         alt="{{ $tenant->name }}"
+                         class="w-9 h-9 rounded-lg object-cover shrink-0 bg-white/10">
+                @else
+                    <div class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                        <span class="text-white font-semibold text-sm">
+                            {{ strtoupper(substr($tenant->name ?? 'R', 0, 1)) }}
+                        </span>
+                    </div>
+                @endif
+                <div class="min-w-0">
+                    <p class="text-white text-sm font-medium truncate">{{ $tenant->name ?? 'Your company' }}</p>
+                    <p class="text-white/50 text-xs truncate">Workspace</p>
+                </div>
+            </div>
 
             <div class="px-3 py-4 border-t border-white/10">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/5 transition">
+                        class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--color-coral)] bg-[var(--color-coral)]/10 hover:bg-[var(--color-coral)]/30 hover:text-white transition">
                         <x-icon.logout class="w-5 h-5" />
                         Log out
                     </button>
@@ -118,7 +120,7 @@
                         'applications' => ['label' => 'Pipeline', 'route' => 'applications.index'],
                         'candidates' => ['label' => 'Candidates', 'route' => 'candidates.index'],
                         'job-postings' => ['label' => 'Job Postings', 'route' => 'job-postings.index'],
-                        'companies' => ['label' => 'Companies', 'route' => 'companies.index'],
+                        'companies' => ['label' => 'Client Companies', 'route' => 'companies.index'],
                         'profile' => ['label' => 'Profile', 'route' => 'profile.edit'],
                     ];
 

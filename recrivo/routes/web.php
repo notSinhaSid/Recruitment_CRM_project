@@ -8,6 +8,7 @@ use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,8 +19,8 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/tenant/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/tenant/register', [AuthController::class, 'register']);
 
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->middleware('guest')
@@ -60,4 +61,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware(['auth', 'super_admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
+    Route::get('/', [SuperAdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/tenants', [SuperAdminController::class, 'tenants'])->name('tenants');
+    Route::get('/tenants/{tenant}', [SuperAdminController::class, 'show'])->name('tenants.show');
+    Route::post('/tenants/{tenant}/toggle', [SuperAdminController::class, 'toggleActive'])->name('tenants.toggle');
+    Route::delete('/tenants/{tenant}', [SuperAdminController::class, 'destroy'])->name('tenants.destroy');
 });

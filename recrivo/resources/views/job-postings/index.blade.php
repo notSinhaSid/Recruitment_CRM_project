@@ -2,7 +2,7 @@
 
     <div class="flex items-center justify-between mb-6">
         <p class="text-sm text-[var(--color-text-secondary)]">
-            {{ $jobPostings->total() }} total job posting{{ $jobPostings->total() === 1 ? '' : 's' }}
+            {{ $jobPostings->total() }} total client's job posting{{ $jobPostings->total() === 1 ? '' : 's' }}
         </p>
         <a href="{{ route('job-postings.create') }}"
            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">

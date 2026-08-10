@@ -5,7 +5,7 @@
 @endphp
 
 <div class="grid grid-cols-2 gap-5">
-    <x-form-field name="company_id" label="Company" type="select" required>
+    <x-form-field name="company_id" label="Client Company" type="select" required>
         @if (! $jp)
             <option value="">-- Select --</option>
         @endif

@@ -17,7 +17,7 @@
             <form method="POST" action="{{ route('applications.store') }}">
                 @csrf
 
-                @include('applications._form')
+                @include('applications._forms')
 
                 <div class="flex items-center gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
                     <button type="submit"

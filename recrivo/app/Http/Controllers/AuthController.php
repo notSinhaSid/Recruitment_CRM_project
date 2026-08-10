@@ -28,6 +28,12 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            if (! Auth::user()->tenant->is_active) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'This organization has been suspended. Contact support.'
+                ]);
+            }
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'));
         }

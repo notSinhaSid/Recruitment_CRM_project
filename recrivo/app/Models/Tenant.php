@@ -14,6 +14,7 @@ class Tenant extends Model
     protected $fillable = [
         'name',
         'slug',
+        'is_active',
     ];
 
     protected static function booted(): void {

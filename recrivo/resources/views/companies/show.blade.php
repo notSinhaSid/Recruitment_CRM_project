@@ -1,4 +1,4 @@
-<x-app-layout header="Company Details">
+<x-app-layout header="Client Company Details">
 
     <div class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">

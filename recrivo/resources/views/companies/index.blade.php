@@ -1,15 +1,15 @@
-<x-app-layout header="Companies">
+<x-app-layout header="Client Companies">
 
     <div class="flex items-center justify-between mb-6">
         <p class="text-sm text-[var(--color-text-secondary)]">
-            {{ $companies->total() }} total compan{{ $companies->total() === 1 ? 'y' : 'ies' }}
+            {{ $companies->total() }} total client compan{{ $companies->total() === 1 ? 'y' : 'ies' }}
         </p>
         <a href="{{ route('companies.create') }}"
            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-light)] transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 5v14M5 12h14" />
             </svg>
-            New Company
+            New Client Company
         </a>
     </div>
 
@@ -34,14 +34,14 @@
                                 :show-route="route('companies.show', $company)"
                                 :edit-route="route('companies.edit', $company)"
                                 :destroy-route="route('companies.destroy', $company)"
-                                confirm-label="this company"
+                                confirm-label="this client company"
                             />
                         </td>
                     </tr>
                 @empty
                     <tr>
                         <td colspan="4" class="px-6 py-12 text-center text-[var(--color-text-secondary)]">
-                            No companies yet.
+                            No client companies yet.
                         </td>
                     </tr>
                 @endforelse

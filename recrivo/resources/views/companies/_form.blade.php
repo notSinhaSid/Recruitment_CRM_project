@@ -3,7 +3,7 @@
 @endphp
 
 <div class="grid grid-cols-2 gap-5">
-    <x-form-field name="name" label="Company Name" required value="{{ old('name', $c->name ?? '') }}" />
+    <x-form-field name="name" label="Client Company Name" required value="{{ old('name', $c->name ?? '') }}" />
     <x-form-field name="industry" label="Industry" value="{{ old('industry', $c->industry ?? '') }}" />
 </div>
 
