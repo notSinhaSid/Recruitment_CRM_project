@@ -1,58 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Recrivo — Multi-Tenant Applicant Tracking System / Recruitment CRM
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Recrivo is a multi-tenant Applicant Tracking System (ATS) / Recruitment CRM built with Laravel 13. It allows recruitment agencies to sign up as isolated tenants, manage their client companies, post jobs, track candidates through a hiring pipeline, and manage their internal team — all within a fully tenant-isolated environment, with a platform-level Super Admin panel for oversight.
 
-## About Laravel
+Built as a final project for a Laravel course at Webskitter Academy.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel 13 (PHP 8.3+), MySQL, Eloquent ORM
+- **Auth:** Hand-rolled authentication (deliberately built without Fortify/Breeze to deepen framework understanding) + Laravel Sanctum for the API layer
+- **Frontend:** Blade (anonymous components), Tailwind CSS v4 + Vite, Alpine.js (CDN), Quill.js (CDN — WYSIWYG editor)
+- **Icons/Fonts:** Heroicons (outline), Inter (Google Fonts)
+- **Mail:** Laravel `Password` broker + `MustVerifyEmail`, tested via Mailtrap Email Sandbox
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Core Features
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Multi-Tenancy
+- Each agency self-registers and gets its own isolated **tenant** workspace, becoming its own Admin.
+- Tenant isolation enforced via manual `abort_if` checks across controllers.
+- A dedicated **"Recrivo Platform"** tenant houses the Super Admin account, avoiding a nullable `tenant_id` and schema ripple effects.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Roles & Access
+- Single role per user via foreign key: **Admin**, **Recruiter**, **Hiring Manager**.
+- Admins invite their own team members (Recruiters / Hiring Managers) from inside the app — no public registration for internal roles.
+- Role escalation is guarded (`abort_unless`) on the team invite flow.
 
-## Agentic Development
+### Recruitment Workflow
+- **Client Companies** — businesses the tenant/agency recruits for (not the tenant's own org profile). One tenant can have many client companies.
+- **Job Postings** — belong to a client company, rich-text description via Quill.js.
+- **Candidates** — with rich-text notes, tracked per application.
+- **Applications & Pipeline** — forward-only, one-step-at-a-time pipeline:
+  `applied → screening → interview → offer → hired`
+  - `on_hold` and `rejected` reachable from any active stage
+  - `on_hold` resumes to its exact previous stage
+  - `hired` and `rejected` are terminal states
+  - Enforced server-side via `PipelineStageService`, with live drag/AJAX transitions in the UI (Alpine.js + fetch)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Audit Logging
+- Polymorphic audit trail (`Auditable` trait) applied to Candidates, Applications, and Job Postings — tracks changes over time.
+
+### Super Admin Panel
+- Platform-wide dashboard with aggregate stats across all tenants.
+- Tenant list with live user/candidate counts.
+- Tenant detail view.
+- Reversible **suspend/activate** toggle (suspended tenants are blocked at login with a clear message).
+- Permanent tenant delete with confirmation.
+- Visually distinct dark charcoal + coral-accent UI, separate from the tenant-facing theme.
+
+### API Layer
+- Sanctum-authenticated REST API for Candidates and Applications.
+- Full CRUD, tenant-scoped, tested end-to-end including cross-tenant 403 checks, composite-unique validation, pipeline stage transition guards, and file-upload via `_method=PUT` spoofing.
+
+---
+
+## Local Setup
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone and enter the project
+git clone <repo-url>
+cd recrivo
 
-php artisan boost:install
+# 2. Install dependencies
+composer install
+npm install
+
+# 3. Environment setup
+cp .env.example .env
+php artisan key:generate
+
+# 4. Configure your database in .env, then migrate + seed
+php artisan migrate --seed
+
+# 5. Build frontend assets
+npm run build
+# (or `npm run dev` for local development with hot reload)
+
+# 6. Serve the app
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Default Accounts (from seeders)
+| Role | Email | Notes |
+|---|---|---|
+| Super Admin | `superadmin@recrivo.test` | Lives in the dedicated "Recrivo Platform" tenant |
 
-## Contributing
+Additional tenant/agency accounts and demo data (candidates, job postings, applications across all pipeline stages) are seeded manually through the UI across two tenants to demonstrate multi-tenant isolation — see the demo walkthrough below.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Demo Walkthrough (for grading)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Log in as **Skyline Talent Partners** — a fully populated tenant with multiple client companies, job postings, and candidates spread across every pipeline stage.
+2. Browse candidates, job postings, and drag an application through pipeline stages to see live AJAX transitions + audit logging in action.
+3. Log out, log in as **Bramblewood Staffing** — a minimal second tenant — to confirm complete data isolation between tenants.
+4. Log in as **Super Admin** (`superadmin@recrivo.test`) to view the platform dashboard, confirm both tenants appear with correct counts, and test the suspend/activate toggle.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Notable Engineering Decisions
+
+- **Hand-rolled auth & RBAC** instead of Fortify/Breeze — chosen deliberately to build a deeper understanding of Laravel's authentication internals.
+- **`tenants` table** (not `agencies`) — reserved "companies" naming for client companies (Phase 2 consideration).
+- **`job_postings` table** (not `jobs`) — avoids collision with Laravel's built-in queue jobs table.
+- **Single role via FK**, not a roles pivot table — deliberate simplicity trade-off appropriate for the current scope.
+- **Super Admin as its own tenant** rather than a nullable `tenant_id` — avoids schema-wide nullability ripple effects.
+
+## Known Trade-offs / Deferred Scope
+
+The following were consciously deferred to protect the submission deadline, and are earmarked for a later refactor pass:
+- Global query scope for tenant isolation (currently handled via explicit controller-level checks).
+- Backed PHP enums for stage/status columns (currently `varchar`).
+- Distinct permission sets for Recruiter vs Hiring Manager roles (currently share the same non-Admin capabilities).
+- Branded email templates for password reset / verification mail (in-app auth pages are branded; email bodies are not yet).
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Academic project — Webskitter Academy Laravel course final submission.
