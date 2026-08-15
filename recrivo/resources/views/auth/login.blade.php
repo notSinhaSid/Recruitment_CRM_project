@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     @vite('resources/css/app.css')
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="font-sans antialiased min-h-screen flex">
 
@@ -60,17 +61,9 @@
                 </div>
             @endif
 
-            @if ($errors->any())
-                <div class="mb-6 rounded-lg border border-[var(--color-coral)]/30 bg-[var(--color-coral)]/5 px-4 py-3">
-                    <ul class="text-sm text-[var(--color-coral)] space-y-0.5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+            <form method="POST" action="{{ route('login') }}" class="space-y-5"
+                  x-data="{ submitting: false }" @submit="submitting = true">
                 @csrf
 
                 <x-form-field name="email" label="Email" type="email" required autofocus value="{{ old('email') }}" />
@@ -87,9 +80,14 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full py-3 rounded-lg text-white text-sm font-semibold transition shadow-sm hover:shadow-md"
+                    :disabled="submitting"
+                    class="w-full py-3 rounded-lg text-white text-sm font-semibold transition shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);">
-                    Log in
+                    <svg x-show="submitting" class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    <span x-text="submitting ? 'Logging in...' : 'Log in'"></span>
                 </button>
             </form>
 
