@@ -61,7 +61,7 @@
                         </div>
                         <span class="text-xs px-2 py-0.5 rounded-full shrink-0"
                               style="{{ $tenant->is_active
-                                    ? 'background: rgba(59,74,90,0.08); color: var(--color-primary);'
+                                    ? 'background: rgba(76,154,106,0.1); color: var(--color-success);'
                                     : 'background: rgba(212,99,74,0.1); color: var(--color-coral);' }}">
                             {{ $tenant->is_active ? 'Active' : 'Suspended' }}
                         </span>
