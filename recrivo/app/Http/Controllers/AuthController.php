@@ -76,7 +76,11 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()->route('companies.index');
     }
