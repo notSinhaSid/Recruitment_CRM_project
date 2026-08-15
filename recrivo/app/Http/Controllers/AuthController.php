@@ -82,7 +82,8 @@ class AuthController extends Controller
             report($e);
         }
 
-        return redirect()->route('companies.index');
+        return redirect()->route('companies.index')
+            ->with('success', 'Account created! Welcome to Recrivo.');
     }
 
     public function logout(Request $request): RedirectResponse

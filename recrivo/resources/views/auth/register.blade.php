@@ -55,6 +55,8 @@
             <h2 class="text-2xl font-semibold text-[var(--color-text)] mb-1">Create your account</h2>
             <p class="text-sm text-[var(--color-text-secondary)] mb-8">Set up your organization on Recrivo.</p>
 
+            <x-toast />
+
             <form method="POST" action="{{ route('register') }}" class="space-y-5"
                   x-data="{ submitting: false }" @submit="submitting = true">
                 @csrf

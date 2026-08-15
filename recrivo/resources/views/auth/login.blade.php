@@ -55,12 +55,7 @@
             <h2 class="text-2xl font-semibold text-[var(--color-text)] mb-1">Log in to your account</h2>
             <p class="text-sm text-[var(--color-text-secondary)] mb-8">Please sign in to continue.</p>
 
-            @if (session('success'))
-                <div class="mb-6 rounded-lg border border-[var(--color-border)] bg-white px-4 py-3">
-                    <p class="text-sm text-[var(--color-text)]">{{ session('success') }}</p>
-                </div>
-            @endif
-
+            <x-toast />
 
             <form method="POST" action="{{ route('login') }}" class="space-y-5"
                   x-data="{ submitting: false }" @submit="submitting = true">
