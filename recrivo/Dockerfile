@@ -1,6 +1,18 @@
 # Recrivo — Dockerfile for Render deployment
 # Place this file at: recrivo/Dockerfile  (same level as artisan, composer.json)
 
+# ---- Stage 1: build frontend assets (Tailwind/Vite) ----
+FROM node:20-slim AS frontend
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# ---- Stage 2: PHP app ----
 FROM php:8.3-cli
 
 # System dependencies + PHP extensions Laravel/MySQL need
@@ -26,6 +38,9 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # Copy the rest of the application
 COPY . .
+
+# Bring in compiled frontend assets from the Node stage
+COPY --from=frontend /app/public/build ./public/build
 
 RUN composer dump-autoload --optimize
 
