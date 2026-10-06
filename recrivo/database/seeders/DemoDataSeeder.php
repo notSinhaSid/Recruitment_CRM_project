@@ -23,14 +23,6 @@ class DemoDataSeeder extends Seeder
         'Solstice Recruiting Group',
         'Vantage Point Staffing',
         'Harborline Executive Search',
-        'Meridian Workforce Solutions',
-        'Crestwell Talent Advisors',
-        'Ashgrove Recruitment Co.',
-        'Beacon & Birch Staffing',
-        'Ironwood Career Partners',
-        'Fieldstone HR Consulting',
-        'Silverline Talent Group',
-        'Oakmere Recruiting Studio',
     ];
 
     /** Client companies each agency recruits for. */
@@ -159,7 +151,7 @@ class DemoDataSeeder extends Seeder
             'updated_at' => $createdAt,
         ])->save();
 
-        foreach (range(1, rand(2, 4)) as $i) {
+        foreach (range(1, rand(1, 2)) as $i) {
             $name = $this->randomName();
             $roleName = $roles->has('Recruiter') && $i % 2 === 0 ? 'Hiring Manager' : 'Recruiter';
             $userCreatedAt = $createdAt->copy()->addDays(rand(0, 5));
@@ -210,7 +202,7 @@ class DemoDataSeeder extends Seeder
 
     private function seedCandidatesFor(Tenant $tenant, Carbon $createdAt): \Illuminate\Support\Collection
     {
-        return collect(range(1, rand(8, 15)))->map(function ($i) use ($tenant, $createdAt) {
+        return collect(range(1, rand(3, 5)))->map(function ($i) use ($tenant, $createdAt) {
             $name = $this->randomName();
             $candidateCreatedAt = $createdAt->copy()->addDays(rand(0, 20));
 
